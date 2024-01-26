@@ -1,0 +1,10 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#000000",
+        "titleBar.activeBackground": "#f4c725",
+        "titleBar.activeForeground": "#000000"
+    },
+    "typescript.tsserver.watchOptions": {
+        
+    }
+}
