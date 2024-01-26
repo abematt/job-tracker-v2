@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {useJobsContext} from "../hooks/useJobsContext";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -25,6 +26,22 @@ export type Job = {
   status: "applied" | "rejected" | "callback" | "oa" | "offer";
   appliedDate: string;
 };
+
+function handleDelete(id: string) {
+  const {dispatch} = useJobsContext();
+  return async () => {
+    const response = await fetch(`http://localhost:4000/api/jobs/${id}`, {
+      method: "DELETE",
+    });
+
+    const json = await response.json();
+
+    if (response.ok) {
+      dispatch({type:'DELETE_JOB',payload:json.job})
+      console.log("Job deleted", json);
+    }
+  };
+}
 
 export const columns: ColumnDef<Job>[] = [
   {
@@ -42,7 +59,6 @@ export const columns: ColumnDef<Job>[] = [
     },
     cell: ({ row }) => { 
       const badgeColor = row.getValue("status") === "Applied" ? "bg-cyan-500" : row.getValue("status") === "Rejected" ? "bg-red-500" : row.getValue("status") === "Callback" ? "bg-green-500" : row.getValue("status") === "OA" ? "bg-yellow-500" : "purple"
-      console.log(badgeColor)
       return <Badge variant="outline" className={`px-4 text-left mr-8 align-middle ${badgeColor}`}>{row.getValue("status")}</Badge>;
     }
   },
@@ -102,7 +118,7 @@ export const columns: ColumnDef<Job>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDelete(job._id)}>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

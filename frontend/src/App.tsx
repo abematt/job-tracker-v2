@@ -1,7 +1,8 @@
-import './App.css'
-import Navbar from './components/ui/Navbar'
+import "./App.css";
+import Navbar from "./components/ui/Navbar";
 import { useEffect, useState } from "react";
-import DemoPage from './jobs/jobPage';
+import DemoPage from "./jobs/jobPage";
+import {useJobsContext} from "./hooks/useJobsContext";
 
 function App() {
   type Job = {
@@ -14,9 +15,10 @@ function App() {
     __v: number;
     _id: string;
   };
-  
 
-  const [jobs, setJobs] = useState<Job[]>([])
+  const {jobs,dispatch} = useJobsContext();
+
+  // const [jobs, setJobs] = useState<Job[]>([]);
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -24,8 +26,7 @@ function App() {
         const json = await response.json();
 
         if (response.ok) {
-          console.log(json)
-          setJobs(json.jobs);
+          dispatch({type:'SET_JOBS',payload:json.jobs})
         }
       } catch (error) {
         console.error("There was error fetching job");
@@ -37,10 +38,10 @@ function App() {
 
   return (
     <>
-     <Navbar />
-     {jobs && <DemoPage data={jobs}/>}
+      <Navbar />
+      {jobs && <DemoPage data={jobs} />}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
