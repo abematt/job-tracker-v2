@@ -3,9 +3,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-
+import { MoreHorizontal } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
 import {
   DropdownMenu,
@@ -14,8 +14,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {useJobsContext} from "../hooks/useJobsContext";
+} from "@/components/ui/dropdown-menu";
+
+import JobCard from "./jobCard";
+
+import { useJobsContext } from "../../hooks/useJobsContext";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -28,7 +31,7 @@ export type Job = {
 };
 
 function handleDelete(id: string) {
-  const {dispatch} = useJobsContext();
+  const { dispatch } = useJobsContext();
   return async () => {
     const response = await fetch(`http://localhost:4000/api/jobs/${id}`, {
       method: "DELETE",
@@ -37,44 +40,32 @@ function handleDelete(id: string) {
     const json = await response.json();
 
     if (response.ok) {
-      dispatch({type:'DELETE_JOB',payload:json.job})
-      console.log("Job deleted", json);
+      dispatch({ type: "DELETE_JOB", payload: json.job });
+      toast("Job Deleted");
     }
   };
 }
 
 export const columns: ColumnDef<Job>[] = [
   {
-    accessorKey: "status",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Status
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => { 
-      const badgeColor = row.getValue("status") === "Applied" ? "bg-cyan-500" : row.getValue("status") === "Rejected" ? "bg-red-500" : row.getValue("status") === "Callback" ? "bg-green-500" : row.getValue("status") === "OA" ? "bg-yellow-500" : "purple"
-      return <Badge variant="outline" className={`px-4 text-left mr-8 align-middle ${badgeColor}`}>{row.getValue("status")}</Badge>;
-    }
-  },
-  {
     accessorKey: "companyName",
     header: "Company",
     cell: ({ row }) => {
-      return <div className="px-4 text-left align-middle">{row.getValue("companyName")}</div>
-    }
+      return (
+        <div className="px-4 text-left align-middle">
+          {row.getValue("companyName")}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "position",
     header: "Position",
-    cell : ({row}) => { 
-      return <div className="text-left align-middle">{row.getValue("position")}</div>
-    }
+    cell: ({ row }) => {
+      return (
+        <div className="text-left align-middle">{row.getValue("position")}</div>
+      );
+    },
   },
   {
     accessorKey: "appliedDate",
@@ -91,15 +82,54 @@ export const columns: ColumnDef<Job>[] = [
     },
     cell: ({ row }) => {
       const date = new Date(row.getValue("appliedDate"));
-      const formatted = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      return <div className="px-6 text-left align-middle">{formatted}</div>
-
+      const formatted = date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+      return <div className="px-6 text-left align-middle">{formatted}</div>;
+    },
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const badgeColor =
+        row.getValue("status") === "Applied"
+          ? "bg-cyan-500"
+          : row.getValue("status") === "Rejected"
+          ? "bg-red-500"
+          : row.getValue("status") === "Callback"
+          ? "bg-green-500"
+          : row.getValue("status") === "OA"
+          ? "bg-yellow-500"
+          : row.getValue("status") === "Offer"
+          ? "bg-green-400"
+          : "purple";
+      return (
+        <Badge
+          variant="outline"
+          className={`px-4 text-left mr-8 align-middle ${badgeColor}`}
+        >
+          {row.getValue("status")}
+        </Badge>
+      );
     },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const job = row.original
+      const job = row.original;
       // {console.log(job)}
       return (
         <DropdownMenu>
@@ -110,7 +140,9 @@ export const columns: ColumnDef<Job>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Edit</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <JobCard job={job} />
+            </DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(job._id)}
             >
@@ -118,10 +150,12 @@ export const columns: ColumnDef<Job>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View</DropdownMenuItem>
-            <DropdownMenuItem onClick={handleDelete(job._id)}>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDelete(job._id)}>
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
 ];

@@ -5,6 +5,7 @@ const {
   getJobById,
   deleteJob,
   updateJob,
+  countJobs,
 } = require("../controllers/jobController");
 
 // Create an instance of Express Router
@@ -24,5 +25,7 @@ router.delete("/:id", deleteJob);
 
 // ********************* UPDATE JOB ********************* //
 router.patch("/:id", updateJob);
+
+router.get("/stats/all", countJobs); 
 
 module.exports = router;

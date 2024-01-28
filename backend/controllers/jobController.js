@@ -36,7 +36,7 @@ const createJob = async (req, res) => {
     });
     res.status(200).json({ job });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: error._message });
   }
 };
 
@@ -60,11 +60,31 @@ const updateJob = async (req, res) => {
     return res.status(404).send({ Error: "No such Job" });
 
   try {
-    const job = await Job.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true });
+    const job = await Job.findOneAndUpdate(
+      { _id: id },
+      { ...req.body },
+      { new: true }
+    );
     res.status(200).json({ job });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-module.exports = { createJob, getAllJobs, getJobById, deleteJob, updateJob };
+const countJobs = async (req, res) => {
+  try {
+    const count = await Job.countDocuments({});
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  createJob,
+  getAllJobs,
+  getJobById,
+  deleteJob,
+  updateJob,
+  countJobs,
+};
