@@ -13,15 +13,14 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Toaster } from "@/components/ui/sonner"
-import { toast } from "sonner"
-
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 import DatePicker from "./datePicker";
 
 import * as React from "react";
 import { useJobsContext } from "../../hooks/useJobsContext";
-import {useAuthContext} from "../../hooks/useAuthContext"
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 export default function AddJobForm() {
   const { dispatch } = useJobsContext();
@@ -34,10 +33,10 @@ export default function AddJobForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (!user) {
-      setError("You must be logged in to add a job")
-      return 
+      setError("You must be logged in to add a job");
+      return;
     }
 
     const jobApplication = {
@@ -47,13 +46,13 @@ export default function AddJobForm() {
       status: "Applied",
     };
 
-    const response = await fetch("http://localhost:4000/api/jobs", {
+    const apiURL = import.meta.env.VITE_API_URL + "/api/jobs";
+    const response = await fetch(apiURL, {
       method: "POST",
       body: JSON.stringify(jobApplication),
       headers: {
         "Content-Type": "application/json",
-        'Authorization': `Bearer ${user.token}`,
-        
+        Authorization: `Bearer ${user.token}`,
       },
     });
     const json = await response.json();
@@ -70,8 +69,8 @@ export default function AddJobForm() {
       console.log("New Job Added", json);
       dispatch({ type: "CREATE_JOB", payload: json.job });
       toast("New Job Added", {
-        description:`${position} at ${companyName}`,
-      })
+        description: `${position} at ${companyName}`,
+      });
     }
   };
 

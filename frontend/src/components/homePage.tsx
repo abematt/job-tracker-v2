@@ -36,18 +36,19 @@ export default function HomePage() {
   // const [jobs, setJobs] = useState<Job[]>([]);
   useEffect(() => {
     const fetchJobs = async () => {
+      const apiURL = import.meta.env.VITE_API_URL + "/api/jobs"
       try {
-        const response = await fetch("http://localhost:4000/api/jobs", {
+        const response = await fetch(apiURL, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
         });
         const json = await response.json();
-
         if (response.ok) {
           dispatch({ type: "SET_JOBS", payload: json.jobs });
         }
       } catch (error) {
+        console.log(error)
         console.error("There was error fetching job");
       }
     };

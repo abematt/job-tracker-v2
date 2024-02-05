@@ -10,7 +10,8 @@ export const useLogin = () => {
     setLoading(true);
     setError(null);
 
-    const response = await fetch("http://localhost:4000/api/user/login", {
+    const apiURL = import.meta.env.VITE_API_URL + "/api/user/login";
+    const response = await fetch(apiURL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

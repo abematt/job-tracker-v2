@@ -48,7 +48,8 @@ export default function JobCard({ job }) {
       ...(status && { status }),
     };
 
-    const response = await fetch(`http://localhost:4000/api/jobs/${job._id}`, {
+    const apiURL = import.meta.env.VITE_API_URL + `/api/jobs/${job._id}`;
+    const response = await fetch(apiURL, {
       method: "PATCH",
       body: JSON.stringify(jobApplication),
       headers: {

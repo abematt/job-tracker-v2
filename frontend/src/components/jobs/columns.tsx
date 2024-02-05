@@ -34,13 +34,14 @@ export type Job = {
 function handleDelete(id: string) {
   const { dispatch } = useJobsContext();
   const { user } = useAuthContext();
-  
+
   return async () => {
     if (!user) {
       return;
     }
 
-    const response = await fetch(`http://localhost:4000/api/jobs/${id}`, {
+    const apiURL = import.meta.env.VITE_API_URL + `/api/jobs/${id}`;
+    const response = await fetch(apiURL, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${user.token}`,
