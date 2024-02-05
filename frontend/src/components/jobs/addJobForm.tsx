@@ -21,9 +21,11 @@ import DatePicker from "./datePicker";
 
 import * as React from "react";
 import { useJobsContext } from "../../hooks/useJobsContext";
+import {useAuthContext} from "../../hooks/useAuthContext"
 
 export default function AddJobForm() {
   const { dispatch } = useJobsContext();
+  const { user } = useAuthContext();
   const [date, setDate] = React.useState<Date>();
   const [companyName, setCompanyName] = React.useState<string>("");
   const [position, setPosition] = React.useState<string>("");
@@ -32,6 +34,11 @@ export default function AddJobForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    if (!user) {
+      setError("You must be logged in to add a job")
+      return 
+    }
 
     const jobApplication = {
       companyName,
@@ -45,6 +52,8 @@ export default function AddJobForm() {
       body: JSON.stringify(jobApplication),
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${user.token}`,
+        
       },
     });
     const json = await response.json();

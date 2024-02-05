@@ -1,21 +1,43 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { useLogOut } from "@/hooks/useLogout";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 export default function Navbar() {
+  const { logout } = useLogOut();
+  const { user } = useAuthContext();
+  const handleClick = () => {
+    logout();
+  };
   return (
     <header>
       <nav className="flex justify-between">
         <div>
-       
-          <h1 className="font-sans text-3xl font-semibold tracking-tight">Job Tracker</h1>
-
+          <Link to="/">
+            <h1 className="font-sans text-3xl font-semibold tracking-tight">
+              Job Tracker
+            </h1>
+          </Link>
         </div>
         <div className="flex gap-2 mt-2">
-          <Button variant="outline">
-              Home
-          </Button>
-          <Button variant="outline">
-              Account
-          </Button>
+          {user && (
+            <>
+              <span>{user.email}</span>
+              <Button onClick={handleClick} variant="outline">
+                Log out
+              </Button>
+            </>
+          )}
+          {!user && (
+            <>
+              <Link to="/signup">
+                <Button variant="outline">Sign Up</Button>
+              </Link>
+              <Link to="/login">
+                <Button variant="outline">Login</Button>
+              </Link>
+            </>
+          )}
         </div>
       </nav>
     </header>

@@ -1,6 +1,5 @@
 import {
   isToday,
-  isYesterday,
   parseISO,
   differenceInDays,
   min,
@@ -66,7 +65,9 @@ export function calculatePercentageChange(jobs: Job[]): number {
       ? ((todayCount - lastDateCount) / lastDateCount) * 100
       : 0;
 
-  return percentageChange;
+  const roundedPercentageChange = parseFloat(percentageChange.toFixed(2));
+
+  return roundedPercentageChange;
 }
 export function calculateAverageEntriesPerDay(jobs: Job[]) {
   if (!jobs || jobs.length === 0) {

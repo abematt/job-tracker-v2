@@ -19,6 +19,7 @@ import {
 import JobCard from "./jobCard";
 
 import { useJobsContext } from "../../hooks/useJobsContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -32,9 +33,18 @@ export type Job = {
 
 function handleDelete(id: string) {
   const { dispatch } = useJobsContext();
+  const { user } = useAuthContext();
+  
   return async () => {
+    if (!user) {
+      return;
+    }
+
     const response = await fetch(`http://localhost:4000/api/jobs/${id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      }
     });
 
     const json = await response.json();

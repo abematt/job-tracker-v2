@@ -21,11 +21,14 @@ import { Label } from "@/components/ui/label";
 import DatePicker from "./datePicker";
 import * as React from "react";
 import { useJobsContext } from "../../hooks/useJobsContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
+
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 
 export default function JobCard({ job }) {
   const { dispatch } = useJobsContext();
+  const { user } = useAuthContext();
   const [date, setDate] = React.useState<Date>(job.appliedDate);
   const [companyName, setCompanyName] = React.useState<string>("");
   const [position, setPosition] = React.useState<string>("");
@@ -33,6 +36,10 @@ export default function JobCard({ job }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!user) {
+      return;
+    }
 
     const jobApplication = {
       ...(companyName && { companyName }),
@@ -46,6 +53,7 @@ export default function JobCard({ job }) {
       body: JSON.stringify(jobApplication),
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${user.token}`,
       },
     });
     const json = await response.json();
