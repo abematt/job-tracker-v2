@@ -36,6 +36,7 @@ export default function HomePage() {
   // const [jobs, setJobs] = useState<Job[]>([]);
   useEffect(() => {
     const fetchJobs = async () => {
+      
       const apiURL = import.meta.env.VITE_API_URL + "/api/jobs"
       try {
         const response = await fetch(apiURL, {
