@@ -44,7 +44,7 @@ export default function BasicStatCards({ stats }) {
               ? `${Math.abs(stats.percentageChange)}% less than last day`
               : stats.percentageChange > 0
               ? `${stats.percentageChange}% more than last day`
-              : "Same as yesterday"}
+              : "Let's bring those stats up!"}
           </div>
         </div>
       </Card>

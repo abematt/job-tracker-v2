@@ -81,6 +81,10 @@ export function calculateAverageEntriesPerDay(jobs: Job[]) {
   const today = new Date();
   const days = differenceInDays(today, earliestDate);
 
+  if (days === 0) {
+    return jobs.length;
+  }
+
   const averageEntriesPerDay = jobs.length / days;
   const roundedAverageEntriesPerDay = parseFloat(
     averageEntriesPerDay.toFixed(2)
