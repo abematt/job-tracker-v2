@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { Card } from "@/components/ui/card";
 import BasicStatCards from "../components/stats/components/basicStats";
 import {

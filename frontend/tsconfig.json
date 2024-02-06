@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "noEmitOnError": false,
     "baseUrl": ".",
     "paths": {
       "@/*": [

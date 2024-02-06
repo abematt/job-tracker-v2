@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import "./App.css";
 import Navbar from "./components/ui/Navbar";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";

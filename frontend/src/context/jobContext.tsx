@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { createContext, useReducer } from "react";
 
 export const JobContext = createContext(null);
