@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const jobRoutes = require("./routes/jobs");
+const userRoutes = require("./routes/user");
 const mongoose = require("mongoose");
 const cors = require('cors');
 
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 
 // Defining Routes
 app.use("/api/jobs", jobRoutes);
+app.use("/api/user", userRoutes);
 
 //Connect to MongoDB Instance
 mongoose
