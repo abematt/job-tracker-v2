@@ -1,6 +1,6 @@
 # Job Application Tracker
 ![Application Demo Gif](https://github.com/abematt/job-tracker-v2/blob/main/media/demogif.gif)
-##[Check Out Demo Here!](https://job-tracker-v2.netlify.app/)
+## [Check Out Demo Here!](https://job-tracker-v2.netlify.app/)
 
 ## Description
 
