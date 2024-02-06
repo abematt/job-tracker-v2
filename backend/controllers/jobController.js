@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 // ********************* GET ALL JOBS ********************* //
 const getAllJobs = async (req, res) => {
   const user_id = req.user._id;
-  const jobs = await Job.find({user_id}).sort({ createdAt: -1 });
+  const jobs = await Job.find({user_id}).sort({ appliedDate: -1 });
 
   res.status(200).json({ jobs });
 };

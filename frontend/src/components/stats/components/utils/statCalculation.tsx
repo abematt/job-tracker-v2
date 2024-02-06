@@ -79,7 +79,7 @@ export function calculateAverageEntriesPerDay(jobs: Job[]) {
   const dates = jobs.map((job) => parseISO(job.appliedDate));
   const earliestDate = min(dates);
   const today = new Date();
-  const days = differenceInDays(today, earliestDate);
+  const days = differenceInDays(today, earliestDate)+1;
 
   if (days === 0) {
     return jobs.length;
