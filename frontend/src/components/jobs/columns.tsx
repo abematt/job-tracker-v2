@@ -156,13 +156,13 @@ export const columns: ColumnDef<Job>[] = [
             <DropdownMenuLabel>
               <JobCard job={job} />
             </DropdownMenuLabel>
-            <DropdownMenuItem
+            {/* <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(job._id)}
             >
               Copy Job ID
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View</DropdownMenuItem>
+            {/* <DropdownMenuItem>View</DropdownMenuItem> */}
             <DropdownMenuItem onClick={handleDelete(job._id)}>
               Delete
             </DropdownMenuItem>
