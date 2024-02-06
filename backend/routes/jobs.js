@@ -1,4 +1,5 @@
 const express = require("express");
+const requireAuth = require("../middleware/requireAuth");
 const {
   createJob,
   getAllJobs,
@@ -10,6 +11,8 @@ const {
 
 // Create an instance of Express Router
 const router = express.Router();
+
+router.use(requireAuth);
 
 // ********************* GET ALL JOBS ********************* //
 router.get("/", getAllJobs);
@@ -26,6 +29,6 @@ router.delete("/:id", deleteJob);
 // ********************* UPDATE JOB ********************* //
 router.patch("/:id", updateJob);
 
-router.get("/stats/all", countJobs); 
+router.get("/stats/all", countJobs);
 
 module.exports = router;

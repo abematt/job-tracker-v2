@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 
 // ********************* GET ALL JOBS ********************* //
 const getAllJobs = async (req, res) => {
-  const jobs = await Job.find({}).sort({ createdAt: -1 });
+  const user_id = req.user._id;
+  const jobs = await Job.find({user_id}).sort({ createdAt: -1 });
 
   res.status(200).json({ jobs });
 };
@@ -27,12 +28,14 @@ const createJob = async (req, res) => {
 
   // Add job to the database
   try {
+    const user_id = req.user._id
     const job = await Job.create({
       companyName,
       position,
       appliedDate,
       status,
       responseDate,
+      user_id,
     });
     res.status(200).json({ job });
   } catch (error) {
