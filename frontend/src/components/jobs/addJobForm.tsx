@@ -31,9 +31,11 @@ export default function AddJobForm() {
   const [position, setPosition] = React.useState<string>("");
   //   TO DO: Add error message displays
   const [error, setError] = React.useState<string>("");
+  const [loading,setLoading] = React.useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!user) {
       setError("You must be logged in to add a job");
@@ -63,6 +65,7 @@ export default function AddJobForm() {
       setError(json.message);
     }
     if (response.ok) {
+      setLoading(false);
       setError("");
       setCompanyName("");
       setPosition("");
@@ -120,7 +123,7 @@ export default function AddJobForm() {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={handleSubmit}>
+          <Button type="submit" onClick={handleSubmit} disabled={loading}>
             Add Job
           </Button>
         </DialogFooter>

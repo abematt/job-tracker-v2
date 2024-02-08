@@ -1,6 +1,7 @@
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
 import { Toaster } from "@/components/ui/sonner"
+import { Skeleton } from "@/components/ui/skeleton"
 
 
 type Job = {

@@ -1,5 +1,5 @@
 //@ts-nocheck
-
+import { Skeleton } from "@/components/ui/skeleton";
 import { Card } from "@/components/ui/card";
 import BasicStatCards from "../components/stats/components/basicStats";
 import {
@@ -38,7 +38,7 @@ export default function HomePage() {
   // const [jobs, setJobs] = useState<Job[]>([]);
   useEffect(() => {
     const fetchJobs = async () => {
-      const apiURL = import.meta.env.VITE_API_URL + "/api/jobs"
+      const apiURL = import.meta.env.VITE_API_URL + "/api/jobs";
       try {
         const response = await fetch(apiURL, {
           headers: {
@@ -50,7 +50,7 @@ export default function HomePage() {
           dispatch({ type: "SET_JOBS", payload: json.jobs });
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
         console.error("There was error fetching job");
       }
     };
@@ -91,6 +91,15 @@ export default function HomePage() {
           <BasicStatCards stats={jobStats} />
         </div>
         <div className="row-span-2 col-span-4 lg:col-span-3 lg:row-span-2">
+          {!jobs &&
+            Array(10)
+              .fill(null)
+              .map((_, index) => (
+                <Skeleton
+                  key={index}
+                  className="w-full h-8 rounded-full mt-4 cursor-wait"
+                />
+              ))}{" "}
           <Card>{jobs && <DemoPage data={jobs} />}</Card>
         </div>
         <div className="row-span-2 col-span-4 lg:col-span-1 lg:row-span-1">

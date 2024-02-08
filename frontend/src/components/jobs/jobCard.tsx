@@ -35,9 +35,11 @@ export default function JobCard({ job }) {
   const [companyName, setCompanyName] = React.useState<string>("");
   const [position, setPosition] = React.useState<string>("");
   const [status, setStatus] = React.useState<string>("");
+  const [loading,setLoading] = React.useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!user) {
       return;
@@ -65,6 +67,7 @@ export default function JobCard({ job }) {
       console.log("Error", json.message);
     }
     if (response.ok) {
+      setLoading(false);
       setCompanyName("");
       setPosition("");
       setDate(new Date());
@@ -139,7 +142,7 @@ export default function JobCard({ job }) {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" onClick={handleSubmit}>
+            <Button type="submit" onClick={handleSubmit} disabled={loading}>
               Save changes
             </Button>
           </DialogFooter>
