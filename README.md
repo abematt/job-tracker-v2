@@ -1,4 +1,6 @@
 # Job Application Tracker
+![Application Demo Gif](https://github.com/abematt/job-tracker-v2/blob/main/media/demogif.gif)
+## [Check Out Demo Here!](https://job-tracker-v2.netlify.app/)
 
 ## Description
 
@@ -38,8 +40,8 @@ While the current version of the Job Application Tracker provides essential func
 
 You can try out the Job Application Tracker [https://job-tracker-v2.netlify.app/](#) 
 
-![Job Application Tracker Demo](https://imgur.com/a/WqFLMTy)
-[Insert screenshot(s) or gif(s) showcasing the application's interface and functionality.]
+![Application Screenshot](https://github.com/abematt/job-tracker-v2/blob/main/media/Job%20Tracker%20Screenshot%201.png)
+
 
 ## Contributing
 
