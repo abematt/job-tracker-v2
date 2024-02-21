@@ -63,6 +63,7 @@ export default function AddJobForm() {
     if (!response.ok) {
       console.log("Error", json.message);
       setError(json.message);
+      setLoading(false);
     }
     if (response.ok) {
       setLoading(false);
